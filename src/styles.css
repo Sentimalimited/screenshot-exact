@@ -478,29 +478,18 @@
   }
 }
 
-/* Scroll reveal: only hides content once JavaScript has taken over */
-.reveal-ready [data-reveal] {
-  transition:
-    opacity var(--dur-slow) var(--ease-premium),
-    transform var(--dur-slow) var(--ease-premium),
-    filter var(--dur-slow) var(--ease-premium);
-}
-.reveal-ready [data-reveal]:not(.is-revealed) {
-  opacity: 0;
-  transform: translateY(28px);
-  filter: blur(4px);
-}
-.reveal-ready [data-reveal-stagger] > * {
-  transition:
-    opacity var(--dur-slow) var(--ease-premium),
-    transform var(--dur-slow) var(--ease-premium),
-    filter var(--dur-slow) var(--ease-premium);
-  transition-delay: calc(var(--reveal-i, 0) * 90ms);
-}
+/* Scroll reveal: only hides content once JavaScript has taken over.
+   Uses backwards-filled animations so hover transforms still work afterwards. */
+.reveal-ready [data-reveal]:not(.is-revealed),
 .reveal-ready [data-reveal-stagger]:not(.is-revealed) > * {
   opacity: 0;
-  transform: translateY(24px);
-  filter: blur(3px);
+}
+.reveal-ready [data-reveal].is-revealed {
+  animation: rise var(--dur-slow) var(--ease-premium) backwards;
+}
+.reveal-ready [data-reveal-stagger].is-revealed > * {
+  animation: rise var(--dur-slow) var(--ease-premium) backwards;
+  animation-delay: calc(var(--reveal-i, 0) * 90ms);
 }
 .reveal-ready .ornament-draw:not(.is-revealed) > span {
   transform: scaleX(0);
