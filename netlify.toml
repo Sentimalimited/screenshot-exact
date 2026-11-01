@@ -1,0 +1,7 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # The Lovable Vite config falls back to Cloudflare; build the SSR server for Netlify instead.
+  NITRO_PRESET = "netlify"
