@@ -1,5 +1,36 @@
 import { useEffect } from "react";
 
+let firstRunDone = false;
+
+/** Wait until the initial page has finished loading and hydrating before touching the DOM. */
+function afterHydration(cb: () => void): () => void {
+  if (firstRunDone) {
+    cb();
+    return () => {};
+  }
+  let cancelled = false;
+  let idleId: number | undefined;
+  const run = () => {
+    const go = () => {
+      if (cancelled) return;
+      firstRunDone = true;
+      cb();
+    };
+    if ("requestIdleCallback" in window) idleId = window.requestIdleCallback(go, { timeout: 800 });
+    else idleId = window.setTimeout(go, 200);
+  };
+  if (document.readyState === "complete") run();
+  else window.addEventListener("load", run, { once: true });
+  return () => {
+    cancelled = true;
+    window.removeEventListener("load", run);
+    if (idleId !== undefined) {
+      if ("cancelIdleCallback" in window) window.cancelIdleCallback(idleId);
+      window.clearTimeout(idleId);
+    }
+  };
+}
+
 /**
  * Site-wide scroll reveal. Elements marked `data-reveal` (or groups marked
  * `data-reveal-stagger`) fade and rise into place once they enter the viewport.
@@ -8,6 +39,19 @@ import { useEffect } from "react";
  */
 export function useReveal(pathname: string) {
   useEffect(() => {
+    let teardown = () => {};
+    const cancel = afterHydration(() => {
+      teardown = setup();
+    });
+    return () => {
+      cancel();
+      teardown();
+    };
+  }, [pathname]);
+}
+
+function setup(): () => void {
+  {
     const root = document.documentElement;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const selector = "[data-reveal], [data-reveal-stagger], [data-reveal-ornament]";
@@ -20,7 +64,7 @@ export function useReveal(pathname: string) {
 
     if (reduce || !("IntersectionObserver" in window)) {
       document.querySelectorAll(selector).forEach((el) => show(el, true));
-      return;
+      return () => {};
     }
 
     const io = new IntersectionObserver(
@@ -64,7 +108,7 @@ export function useReveal(pathname: string) {
       io.disconnect();
       mo.disconnect();
     };
-  }, [pathname]);
+  }
 }
 
 /** Adds `data-scrolled` to <html> once the page is scrolled, for the header. */
