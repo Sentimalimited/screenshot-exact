@@ -10,7 +10,7 @@ export function useReveal(pathname: string) {
   useEffect(() => {
     const root = document.documentElement;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const selector = "[data-reveal], [data-reveal-stagger]";
+    const selector = "[data-reveal], [data-reveal-stagger], [data-reveal-ornament]";
 
     const prepare = (el: Element) => {
       if (el.hasAttribute("data-reveal-stagger")) {
@@ -43,7 +43,7 @@ export function useReveal(pathname: string) {
       const r = el.getBoundingClientRect();
       // Already on screen at first paint: show without animating to avoid a flash.
       if (!root.classList.contains("reveal-ready") && r.top < window.innerHeight && r.bottom > 0) {
-        el.classList.add("is-revealed");
+        el.classList.add("is-revealed", "reveal-instant");
         return;
       }
       io.observe(el);

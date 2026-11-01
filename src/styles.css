@@ -491,6 +491,10 @@
   animation: rise var(--dur-slow) var(--ease-premium) backwards;
   animation-delay: calc(var(--reveal-i, 0) * 90ms);
 }
+.reveal-instant,
+.reveal-instant > * {
+  animation: none !important;
+}
 .reveal-ready .ornament-draw:not(.is-revealed) > span {
   transform: scaleX(0);
 }
