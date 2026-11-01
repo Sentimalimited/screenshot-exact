@@ -22,7 +22,7 @@ type Values = Record<string, string>;
 const selectClass =
   "flex h-10 w-full rounded-sm border border-input bg-card px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
-function Field({ id, label, required, error, children, hint }: { id: string; label: string; required?: boolean; error?: string; hint?: string; children: ReactNode }) {
+function Field({ id, label, required, error, children, hint }: { id: string; label: string; required?: boolean | undefined; error?: string | undefined; hint?: string | undefined; children: ReactNode }) {
   return (
     <div className="space-y-1.5">
       <Label htmlFor={id} className="text-sm font-semibold">
@@ -48,7 +48,7 @@ export function EnquiryForm({
   allowKindSwitch = false,
 }: {
   kind: EnquiryKind;
-  defaultService?: string;
+  defaultService?: string | undefined;
   allowKindSwitch?: boolean;
 }) {
   const { services, settings } = useSiteContent();
@@ -78,7 +78,7 @@ export function EnquiryForm({
       consent,
       started_at: startedAt,
       website: String(fd.get("website") ?? ""),
-      service: kind === "ai_talk" ? "Free AI talk for teachers" : values.service || undefined,
+      service: kind === "ai_talk" ? "Free AI talk for teachers" : values["service"] || undefined,
     };
     if (file) {
       if (file.size > MAX_ATTACHMENT_BYTES) return setErrors({ attachment: "Attachment must be 5 MB or smaller." });
@@ -146,72 +146,72 @@ export function EnquiryForm({
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
-        <Field id="organisation" label={isContact ? "School or organisation" : "School or organisation name"} required={!isContact} error={errors.organisation}>
-          <Input id="organisation" value={values.organisation ?? ""} onChange={set("organisation")} autoComplete="organization" />
+        <Field id="organisation" label={isContact ? "School or organisation" : "School or organisation name"} required={!isContact} error={errors["organisation"]}>
+          <Input id="organisation" value={values["organisation"] ?? ""} onChange={set("organisation")} autoComplete="organization" />
         </Field>
-        <Field id="contact_name" label="Your name" required error={errors.contact_name}>
-          <Input id="contact_name" value={values.contact_name ?? ""} onChange={set("contact_name")} autoComplete="name" />
+        <Field id="contact_name" label="Your name" required error={errors["contact_name"]}>
+          <Input id="contact_name" value={values["contact_name"] ?? ""} onChange={set("contact_name")} autoComplete="name" />
         </Field>
-        <Field id="phone" label="Phone number" required={!isContact} error={errors.phone}>
-          <Input id="phone" type="tel" value={values.phone ?? ""} onChange={set("phone")} autoComplete="tel" placeholder="+254 7XX XXX XXX" />
+        <Field id="phone" label="Phone number" required={!isContact} error={errors["phone"]}>
+          <Input id="phone" type="tel" value={values["phone"] ?? ""} onChange={set("phone")} autoComplete="tel" placeholder="+254 7XX XXX XXX" />
         </Field>
-        <Field id="email" label="Email" required error={errors.email}>
-          <Input id="email" type="email" value={values.email ?? ""} onChange={set("email")} autoComplete="email" />
+        <Field id="email" label="Email" required error={errors["email"]}>
+          <Input id="email" type="email" value={values["email"] ?? ""} onChange={set("email")} autoComplete="email" />
         </Field>
 
         {!isContact && (
           <>
-            <Field id="county" label="County" error={errors.county}>
-              <select id="county" className={selectClass} value={values.county ?? ""} onChange={set("county")}>
+            <Field id="county" label="County" error={errors["county"]}>
+              <select id="county" className={selectClass} value={values["county"] ?? ""} onChange={set("county")}>
                 <option value="">Select county</option>
                 {COUNTIES.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </Field>
-            <Field id="location" label="Town or location" error={errors.location}>
-              <Input id="location" value={values.location ?? ""} onChange={set("location")} />
+            <Field id="location" label="Town or location" error={errors["location"]}>
+              <Input id="location" value={values["location"] ?? ""} onChange={set("location")} />
             </Field>
           </>
         )}
 
         {isQuote && (
           <>
-            <Field id="service" label="Service required" required error={errors.service}>
-              <select id="service" className={selectClass} value={values.service ?? ""} onChange={set("service")}>
+            <Field id="service" label="Service required" required error={errors["service"]}>
+              <select id="service" className={selectClass} value={values["service"] ?? ""} onChange={set("service")}>
                 <option value="">Select a service</option>
                 {services.map((s) => <option key={s.id} value={s.title}>{s.title}</option>)}
                 <option value="Several services">Several services</option>
               </select>
             </Field>
-            <Field id="quantity" label="Estimated number of learners or items" error={errors.quantity}>
-              <Input id="quantity" type="number" min={1} inputMode="numeric" value={values.quantity ?? ""} onChange={set("quantity")} />
+            <Field id="quantity" label="Estimated number of learners or items" error={errors["quantity"]}>
+              <Input id="quantity" type="number" min={1} inputMode="numeric" value={values["quantity"] ?? ""} onChange={set("quantity")} />
             </Field>
-            <Field id="timeframe" label="Preferred timeframe" error={errors.timeframe} hint="e.g. before the start of Term 1">
-              <Input id="timeframe" value={values.timeframe ?? ""} onChange={set("timeframe")} />
+            <Field id="timeframe" label="Preferred timeframe" error={errors["timeframe"]} hint="e.g. before the start of Term 1">
+              <Input id="timeframe" value={values["timeframe"] ?? ""} onChange={set("timeframe")} />
             </Field>
           </>
         )}
 
         {isBooking && (
           <>
-            <Field id="preferred_date" label="Preferred dates" error={errors.preferred_date} hint="Give one or two options">
-              <Input id="preferred_date" value={values.preferred_date ?? ""} onChange={set("preferred_date")} />
+            <Field id="preferred_date" label="Preferred dates" error={errors["preferred_date"]} hint="Give one or two options">
+              <Input id="preferred_date" value={values["preferred_date"] ?? ""} onChange={set("preferred_date")} />
             </Field>
             {kind === "ai_talk" && (
-              <Field id="quantity" label="Approximate number of staff" error={errors.quantity}>
-                <Input id="quantity" type="number" min={1} inputMode="numeric" value={values.quantity ?? ""} onChange={set("quantity")} />
+              <Field id="quantity" label="Approximate number of staff" error={errors["quantity"]}>
+                <Input id="quantity" type="number" min={1} inputMode="numeric" value={values["quantity"] ?? ""} onChange={set("quantity")} />
               </Field>
             )}
           </>
         )}
       </div>
 
-      <Field id="details" label={isContact ? "Your message" : "Describe your requirements"} required error={errors.details}
+      <Field id="details" label={isContact ? "Your message" : "Describe your requirements"} required error={errors["details"]}
         hint="Please do not include learners' personal details here.">
-        <Textarea id="details" rows={5} value={values.details ?? ""} onChange={set("details")} />
+        <Textarea id="details" rows={5} value={values["details"] ?? ""} onChange={set("details")} />
       </Field>
 
       {isQuote && (
-        <Field id="attachment" label="Attachment (optional)" error={errors.attachment} hint="Sample design, wording or list of items. PDF, JPG, PNG or Word, up to 5 MB.">
+        <Field id="attachment" label="Attachment (optional)" error={errors["attachment"]} hint="Sample design, wording or list of items. PDF, JPG, PNG or Word, up to 5 MB.">
           <label htmlFor="attachment" className="flex cursor-pointer items-center gap-3 rounded-sm border border-dashed border-input bg-card px-4 py-3 text-sm hover:border-gold">
             <Paperclip className="size-4 text-gold" />
             <span className="truncate">{file ? file.name : "Choose a file"}</span>
@@ -228,7 +228,7 @@ export function EnquiryForm({
             <Link to="/privacy" className="text-seal underline underline-offset-2">privacy policy</Link>.
           </Label>
         </div>
-        {errors.consent && <p className="text-xs font-medium text-destructive" role="alert">{errors.consent}</p>}
+        {errors["consent"] && <p className="text-xs font-medium text-destructive" role="alert">{errors["consent"]}</p>}
       </div>
 
       {serverError && <p className="rounded-sm border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive" role="alert">{serverError}</p>}
