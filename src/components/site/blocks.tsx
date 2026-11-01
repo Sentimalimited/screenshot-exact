@@ -12,8 +12,8 @@ export function PageHeader({ eyebrow, title, intro }: { eyebrow: string; title: 
     <section className="section-ink">
       <div className="mx-auto max-w-7xl px-5 pb-16 pt-16 md:px-8 md:pb-20 md:pt-24">
         <p className="eyebrow mb-4 animate-rise">{eyebrow}</p>
-        <h1 className="max-w-4xl text-5xl text-ink-foreground animate-rise md:text-7xl">{title}</h1>
-        {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted animate-rise">{intro}</p>}
+        <h1 className="max-w-4xl text-5xl text-ink-foreground animate-rise delay-1 md:text-7xl">{title}</h1>
+        {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted animate-rise delay-2">{intro}</p>}
         <Ornament className="mt-12 max-w-md" />
       </div>
     </section>
@@ -25,7 +25,7 @@ export function ServiceCard({ service }: { service: Service }) {
     <Link
       to="/services/$slug"
       params={{ slug: service.slug }}
-      className="group card-parchment flex flex-col overflow-hidden transition-transform hover:-translate-y-1"
+      className="group card-parchment card-lift flex flex-col overflow-hidden"
     >
       <div className="aspect-[4/3] overflow-hidden bg-muted">
         <img
@@ -34,14 +34,14 @@ export function ServiceCard({ service }: { service: Service }) {
           loading="lazy"
           width={1200}
           height={900}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
         />
       </div>
       <div className="flex flex-1 flex-col p-6">
         <h3 className="text-2xl">{service.title}</h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{service.summary}</p>
         <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-seal">
-          Learn more <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+          Learn more <ArrowRight className="size-4 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1.5" />
         </span>
       </div>
     </Link>
@@ -83,7 +83,7 @@ export function CtaBand({
   const { settings } = useSiteContent();
   return (
     <section className="section-ink">
-      <div className="mx-auto max-w-5xl px-5 py-20 text-center md:px-8 md:py-24">
+      <div data-reveal className="mx-auto max-w-5xl px-5 py-20 text-center md:px-8 md:py-24">
         <p className="eyebrow mb-4">Start an enquiry</p>
         <h2 className="text-4xl text-ink-foreground md:text-6xl">{title}</h2>
         <p className="mx-auto mt-5 max-w-xl text-lg text-ink-muted">{text}</p>

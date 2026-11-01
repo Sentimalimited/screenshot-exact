@@ -20,6 +20,7 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { WhatsAppFloat } from "@/components/site/whatsapp-float";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useReveal, useScrolledFlag } from "@/hooks/use-reveal";
 
 function NotFoundComponent() {
   return (
@@ -33,7 +34,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-sm bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-ink-soft"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-ink-soft"
           >
             Go home
           </Link>
@@ -63,13 +64,13 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-sm bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-ink-soft"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-ink-soft"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-sm border border-input bg-background px-4 py-2 text-sm font-semibold text-foreground hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-semibold text-foreground hover:bg-accent"
           >
             Go home
           </a>
@@ -160,13 +161,16 @@ function RootComponent() {
     return () => data.subscription.unsubscribe();
   }, [router, queryClient]);
 
+  useReveal(pathname);
+  useScrolledFlag();
+
   return (
     <QueryClientProvider client={queryClient}>
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-gold focus:px-4 focus:py-2 focus:text-gold-foreground">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-gold focus:px-4 focus:py-2 focus:text-gold-foreground">
         Skip to content
       </a>
       <SiteHeader />
-      <main id="main">
+      <main id="main" key={pathname} className="animate-page">
         <Outlet />
       </main>
       {!isAdminArea && <SiteFooter />}

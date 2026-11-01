@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 /** Restrained gold divider with a central diamond. */
 export function Ornament({ className }: { className?: string }) {
   return (
-    <div className={cn("flex items-center gap-3 text-gold", className)} aria-hidden>
+    <div className={cn("ornament-draw flex items-center gap-3 text-gold", className)} data-reveal-ornament aria-hidden>
       <span className="rule-gold h-px flex-1" />
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
         <path d="M9 1 L12 9 L9 17 L6 9 Z" fill="currentColor" opacity="0.85" />
@@ -48,7 +48,7 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div className={cn(align === "center" && "mx-auto text-center", "max-w-2xl", className)}>
+    <div data-reveal className={cn(align === "center" && "mx-auto text-center", "max-w-2xl", className)}>
       {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
       <Tag className={cn(Tag === "h1" ? "text-5xl md:text-6xl" : "text-4xl md:text-5xl")}>{title}</Tag>
       {intro && <p className="mt-4 text-lg leading-relaxed opacity-80">{intro}</p>}

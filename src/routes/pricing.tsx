@@ -33,7 +33,7 @@ function Pricing() {
 
       <section className="mx-auto max-w-7xl px-5 py-20 md:px-8">
         <h2 className="text-4xl">How pricing works</h2>
-        <ol className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-4">
+        <ol data-reveal-stagger className="mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-4">
           {PROCESS.map((p, i) => (
             <li key={p.title} className="bg-card p-7">
               <span className="font-blackletter text-4xl text-gold">{i + 1}</span>
@@ -68,7 +68,7 @@ function Pricing() {
                     {p.price_label ? (
                       <span className="font-display text-xl font-semibold">{p.price_label}</span>
                     ) : (
-                      <span className="inline-block rounded-sm border border-gold/60 bg-accent px-2.5 py-1 text-xs font-semibold uppercase tracking-wider">Individual quotation</span>
+                      <span className="inline-block rounded-full border border-gold/60 bg-accent px-2.5 py-1 text-xs font-semibold uppercase tracking-wider">Individual quotation</span>
                     )}
                   </td>
                   <td className="px-5 py-5 text-right">
