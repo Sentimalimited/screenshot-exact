@@ -95,7 +95,7 @@ export function EnquiryForm({
     setErrors({});
     setStatus("sending");
     try {
-      if (file) payload.attachment = { name: file.name, type: file.type, base64: await fileToBase64(file) };
+      if (file) payload["attachment"] = { name: file.name, type: file.type, base64: await fileToBase64(file) };
       await submit({ data: payload });
       setStatus("sent");
     } catch (err) {
