@@ -17,7 +17,7 @@ function afterHydration(cb: () => void): () => void {
       cb();
     };
     if ("requestIdleCallback" in window) idleId = window.requestIdleCallback(go, { timeout: 800 });
-    else idleId = window.setTimeout(go, 200);
+    else idleId = globalThis.setTimeout(go, 200) as unknown as number;
   };
   if (document.readyState === "complete") run();
   else window.addEventListener("load", run, { once: true });
@@ -26,7 +26,7 @@ function afterHydration(cb: () => void): () => void {
     window.removeEventListener("load", run);
     if (idleId !== undefined) {
       if ("cancelIdleCallback" in window) window.cancelIdleCallback(idleId);
-      window.clearTimeout(idleId);
+      globalThis.clearTimeout(idleId);
     }
   };
 }
