@@ -12,16 +12,14 @@ export function useReveal(pathname: string) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const selector = "[data-reveal], [data-reveal-stagger], [data-reveal-ornament]";
 
-    const prepare = (el: Element) => {
-      if (el.hasAttribute("data-reveal-stagger")) {
-        Array.from(el.children).forEach((child, i) => {
-          (child as HTMLElement).style.setProperty("--reveal-i", String(Math.min(i, 10)));
-        });
-      }
+    // State lives in data attributes (not className/style) so React hydration is untouched.
+    const show = (el: Element, instant = false) => {
+      el.setAttribute("data-shown", "");
+      if (instant) el.setAttribute("data-instant", "");
     };
 
     if (reduce || !("IntersectionObserver" in window)) {
-      document.querySelectorAll(selector).forEach((el) => el.classList.add("is-revealed"));
+      document.querySelectorAll(selector).forEach((el) => show(el, true));
       return;
     }
 
@@ -29,7 +27,7 @@ export function useReveal(pathname: string) {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-revealed");
+            show(entry.target);
             io.unobserve(entry.target);
           }
         }
@@ -38,12 +36,11 @@ export function useReveal(pathname: string) {
     );
 
     const track = (el: Element) => {
-      if (el.classList.contains("is-revealed")) return;
-      prepare(el);
+      if (el.hasAttribute("data-shown")) return;
       const r = el.getBoundingClientRect();
       // Already on screen at first paint: show without animating to avoid a flash.
       if (!root.classList.contains("reveal-ready") && r.top < window.innerHeight && r.bottom > 0) {
-        el.classList.add("is-revealed", "reveal-instant");
+        show(el, true);
         return;
       }
       io.observe(el);
