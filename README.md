@@ -4,13 +4,11 @@ Implement exactly the screenshot and nothing else
 
 This project was built with [Lovable](https://lovable.dev).
 
-## Build with Lovable
+## Build with hart global technologies
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/bc7a5e34-c611-4ede-96fe-f1f93425d4c7).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- **Ship faster**: describe what you want to build .
+- **Stay in sync**: every change made is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync , ready for you.
 
 ## Development
 
