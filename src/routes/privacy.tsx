@@ -24,7 +24,7 @@ function Privacy() {
       <PageHeader eyebrow="Privacy" title="Privacy policy" intro="How we handle the information you share with us, and how we protect learner data." />
       <section className="mx-auto max-w-3xl px-5 py-16 md:px-8">
         {!settings?.privacy_approved && (
-          <p className="mb-10 rounded-sm border border-seal/40 bg-seal/10 p-4 text-sm">
+          <p className="mb-10 rounded-md border border-seal/40 bg-seal/10 p-4 text-sm">
             <strong>Draft:</strong> this policy is awaiting review and approval by {name} before launch.
           </p>
         )}

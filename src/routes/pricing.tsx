@@ -68,7 +68,7 @@ function Pricing() {
                     {p.price_label ? (
                       <span className="font-display text-xl font-semibold">{p.price_label}</span>
                     ) : (
-                      <span className="inline-block rounded-sm border border-gold/60 bg-accent px-2.5 py-1 text-xs font-semibold uppercase tracking-wider">Individual quotation</span>
+                      <span className="inline-block rounded-full border border-gold/60 bg-accent px-2.5 py-1 text-xs font-semibold uppercase tracking-wider">Individual quotation</span>
                     )}
                   </td>
                   <td className="px-5 py-5 text-right">
