@@ -39,7 +39,7 @@ export function useReveal(pathname: string) {
       if (el.hasAttribute("data-shown")) return;
       const r = el.getBoundingClientRect();
       // Already on screen at first paint: show without animating to avoid a flash.
-      if (!root.classList.contains("reveal-ready") && r.top < window.innerHeight && r.bottom > 0) {
+      if (!root.hasAttribute("data-reveal-ready") && r.top < window.innerHeight && r.bottom > 0) {
         show(el, true);
         return;
       }
@@ -47,7 +47,7 @@ export function useReveal(pathname: string) {
     };
 
     document.querySelectorAll(selector).forEach(track);
-    root.classList.add("reveal-ready");
+    root.setAttribute("data-reveal-ready", "");
 
     const mo = new MutationObserver((mutations) => {
       for (const m of mutations) {
