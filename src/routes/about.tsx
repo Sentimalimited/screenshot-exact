@@ -60,7 +60,7 @@ function About() {
       </section>
 
       <section className="section-ink">
-        <div className="mx-auto grid max-w-7xl gap-px bg-ink-soft md:grid-cols-2">
+        <div data-reveal-stagger className="mx-auto grid max-w-7xl gap-px bg-ink-soft md:grid-cols-2">
           <div className="bg-ink p-10 md:p-16">
             <p className="eyebrow mb-4">Mission</p>
             <p className="font-display text-3xl leading-snug text-ink-foreground">{settings?.mission}</p>
@@ -74,7 +74,7 @@ function About() {
 
       <section className="mx-auto max-w-7xl px-5 py-24 md:px-8">
         <SectionHeading eyebrow="Our values" title="What we hold ourselves to" align="center" />
-        <div className="mt-14 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
+        <div data-reveal-stagger className="mt-14 grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
           {VALUES.map((v) => (
             <div key={v.title} className="bg-card p-8">
               <h3 className="text-2xl">{v.title}</h3>

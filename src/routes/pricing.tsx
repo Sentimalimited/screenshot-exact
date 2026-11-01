@@ -33,7 +33,7 @@ function Pricing() {
 
       <section className="mx-auto max-w-7xl px-5 py-20 md:px-8">
         <h2 className="text-4xl">How pricing works</h2>
-        <ol className="mt-10 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-4">
+        <ol data-reveal-stagger className="mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-4">
           {PROCESS.map((p, i) => (
             <li key={p.title} className="bg-card p-7">
               <span className="font-blackletter text-4xl text-gold">{i + 1}</span>

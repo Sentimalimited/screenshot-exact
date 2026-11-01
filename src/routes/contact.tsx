@@ -60,7 +60,7 @@ function Contact() {
           {settings?.public_address && (
             <iframe
               title="Map showing our location"
-              className="aspect-square w-full border border-border"
+              className="aspect-square w-full rounded-lg border border-border"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               src={`https://www.google.com/maps?q=${encodeURIComponent(settings.public_address)}&output=embed`}

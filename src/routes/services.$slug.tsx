@@ -99,7 +99,7 @@ function ServicePage() {
         <section className="border-t border-border bg-muted">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
             <h2 className="text-3xl">Other services</h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div data-reveal-stagger className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {others.map((s) => <ServiceCard key={s.id} service={s} />)}
             </div>
           </div>

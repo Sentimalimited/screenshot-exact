@@ -71,7 +71,7 @@ function Portfolio() {
               {items.map((p) => (
                 <button key={p.id} onClick={() => setOpen(p)} className="group mb-5 block w-full break-inside-avoid text-left">
                   <div className="overflow-hidden bg-muted">
-                    <img src={p.image_url} alt={p.alt_text || p.title} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-105" />
+                    <img src={p.image_url} alt={p.alt_text || p.title} loading="lazy" className="w-full transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]" />
                   </div>
                   <p className="mt-3 font-display text-xl font-semibold">{p.title}</p>
                   {p.caption && <p className="text-sm text-muted-foreground">{p.caption}</p>}
