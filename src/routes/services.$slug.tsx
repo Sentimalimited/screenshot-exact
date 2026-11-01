@@ -75,9 +75,9 @@ function ServicePage() {
         </div>
 
         <aside className="space-y-8 lg:col-span-5">
-          <img src={serviceImage(service)} alt={service.image_alt || `${service.title} — illustrative photograph`} width={1200} height={900} className="aspect-[4/3] w-full object-cover" />
+          <img src={serviceImage(service)} alt={service.image_alt || `${service.title} — illustrative photograph`} width={1200} height={900} className="aspect-[4/3] w-full rounded-lg object-cover" />
           {price.length > 0 && (
-            <div className="border border-border bg-card p-6">
+            <div className="rounded-lg border border-border bg-card p-6">
               <p className="eyebrow mb-3">Pricing</p>
               {price.map((p) => (
                 <div key={p.id}>

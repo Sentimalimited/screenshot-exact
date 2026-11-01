@@ -53,8 +53,8 @@ function About() {
             teachers' desks through reliable, affordable and well-documented services.
           </p>
         </div>
-        <div className="relative">
-          <img src={classroom} alt="A quiet Kenyan classroom with exercise books and a teacher's register" loading="lazy" width={1408} height={1008} className="aspect-[4/3] w-full object-cover" />
+        <div data-reveal className="relative">
+          <img src={classroom} alt="A quiet Kenyan classroom with exercise books and a teacher's register" loading="lazy" width={1408} height={1008} className="aspect-[4/3] w-full rounded-lg object-cover" />
           <Seal letter={name.charAt(0)} size={72} className="absolute -bottom-5 right-6" />
         </div>
       </section>
