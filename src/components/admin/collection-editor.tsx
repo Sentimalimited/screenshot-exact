@@ -61,7 +61,7 @@ export function CollectionEditor({
   async function remove(row: Row) {
     if (!confirm(`Delete “${row[titleField]}”? This cannot be undone.`)) return;
     const { error } = await (supabase.from(table as any) as any).delete().eq("id", row.id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Deleted");
     refresh();
   }
@@ -94,7 +94,7 @@ export function CollectionEditor({
               <div className="min-w-0 flex-1">
                 <p className="truncate font-semibold">{r[titleField]}</p>
                 <p className="truncate text-xs text-muted-foreground">
-                  {"published" in r && (r.published ? "Published" : "Hidden")}
+                  {"published" in r && (r["published"] ? "Published" : "Hidden")}
                   {subtitle ? ` · ${subtitle(r)}` : ""}
                 </p>
               </div>
@@ -117,7 +117,7 @@ function RowForm({ table, fields, row, onDone }: { table: string; fields: FieldD
   async function save() {
     for (const f of fields) {
       if (f.required && (values[f.name] === undefined || values[f.name] === "" || values[f.name] === null)) {
-        return toast.error(`${f.label} is required`);
+        { toast.error(`${f.label} is required`); return; }
       }
     }
     setSaving(true);
@@ -133,7 +133,7 @@ function RowForm({ table, fields, row, onDone }: { table: string; fields: FieldD
     const q = supabase.from(table as any) as any;
     const { error } = row.id ? await q.update(payload).eq("id", row.id) : await q.insert(payload);
     setSaving(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("Saved");
     onDone();
   }
@@ -169,7 +169,7 @@ function RowForm({ table, fields, row, onDone }: { table: string; fields: FieldD
                 <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={async (e) => {
                   const file = e.target.files?.[0];
                   if (!file) return;
-                  if (file.size > 8 * 1024 * 1024) return toast.error("Please use an image under 8 MB.");
+                  if (file.size > 8 * 1024 * 1024) { toast.error("Please use an image under 8 MB."); return; }
                   setUploading(f.name);
                   try { set(f.name, await uploadMedia(file, table)); } catch (err: any) { toast.error(err.message); }
                   setUploading(null);
