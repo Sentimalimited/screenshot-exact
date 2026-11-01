@@ -20,6 +20,7 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { WhatsAppFloat } from "@/components/site/whatsapp-float";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useReveal, useScrolledFlag } from "@/hooks/use-reveal";
 
 function NotFoundComponent() {
   return (
@@ -160,13 +161,16 @@ function RootComponent() {
     return () => data.subscription.unsubscribe();
   }, [router, queryClient]);
 
+  useReveal(pathname);
+  useScrolledFlag();
+
   return (
     <QueryClientProvider client={queryClient}>
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-gold focus:px-4 focus:py-2 focus:text-gold-foreground">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-gold focus:px-4 focus:py-2 focus:text-gold-foreground">
         Skip to content
       </a>
       <SiteHeader />
-      <main id="main">
+      <main id="main" key={pathname} className="animate-page">
         <Outlet />
       </main>
       {!isAdminArea && <SiteFooter />}
