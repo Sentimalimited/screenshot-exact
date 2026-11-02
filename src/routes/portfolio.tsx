@@ -61,17 +61,17 @@ function Portfolio() {
                   role="tab"
                   aria-selected={cat === c.id}
                   onClick={() => setCat(c.id)}
-                  className={`rounded-sm border px-4 py-2 text-sm font-semibold transition-colors ${cat === c.id ? "border-foreground bg-foreground text-background" : "border-border bg-card hover:border-gold"}`}
+                  className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-300 ${cat === c.id ? "border-foreground bg-foreground text-background" : "border-border bg-card hover:border-gold"}`}
                 >
                   {c.label}
                 </button>
               ))}
             </div>
-            <div className="mt-10 columns-1 gap-5 sm:columns-2 lg:columns-3">
+            <div key={cat} data-reveal-stagger className="mt-10 columns-1 gap-5 sm:columns-2 lg:columns-3">
               {items.map((p) => (
                 <button key={p.id} onClick={() => setOpen(p)} className="group mb-5 block w-full break-inside-avoid text-left">
-                  <div className="overflow-hidden bg-muted">
-                    <img src={p.image_url} alt={p.alt_text || p.title} loading="lazy" className="w-full transition-transform duration-700 group-hover:scale-105" />
+                  <div className="overflow-hidden rounded-lg bg-muted transition-shadow duration-500 group-hover:shadow-[var(--shadow-lift)]">
+                    <img src={p.image_url} alt={p.alt_text || p.title} loading="lazy" className="w-full transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]" />
                   </div>
                   <p className="mt-3 font-display text-xl font-semibold">{p.title}</p>
                   {p.caption && <p className="text-sm text-muted-foreground">{p.caption}</p>}

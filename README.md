@@ -1,22 +1,93 @@
-# Screenshot Exact
+# Sentima — School Services Website
 
-Implement exactly the screenshot and nothing else
+Website for **Sentima**, a teacher-led school services company from Western Kenya
+(student ID cards, uniform labelling, Gothic calligraphy certificates, school
+photography, laboratory servicing and free AI talks for teachers).
 
-This project was built with [Lovable](https://lovable.dev).
+Designed and built by **Hart Global Technologies**.
 
-## Build with hart global technologies
+---
 
-- **Ship faster**: describe what you want to build .
-- **Stay in sync**: every change made is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync , ready for you.
+## Built with
 
-## Development
+- **TanStack Start** (React 19) with server-side rendering
+- **Vite** build tool
+- **Tailwind CSS v4** design system (black, gold, parchment and wax-seal red)
+- **Lovable Cloud** backend for content, enquiries, file storage and admin sign-in
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Run it locally
+
+You need Node.js 22 or newer.
 
 ```sh
 git clone <this-repository-url>
-cd <repository-name>
-npm i
+cd <repository-folder>
+npm install --legacy-peer-deps
 npm run dev
 ```
+
+The site opens at http://localhost:8080.
+
+Useful commands:
+
+| Command          | What it does                     |
+| ---------------- | -------------------------------- |
+| `npm run dev`    | Start the local development site |
+| `npm run build`  | Build the site for production    |
+| `npm run test`   | Run the automated tests          |
+| `npm run lint`   | Check the code for mistakes      |
+
+## Deploy to Netlify
+
+The project is ready for Netlify — `netlify.toml` already sets the build.
+
+1. Push this repository to GitHub.
+2. In Netlify choose **Add new site → Import an existing project** and pick the repository.
+3. Netlify reads `netlify.toml`, so keep the defaults:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+4. Under **Site configuration → Environment variables**, add:
+
+   | Name                            | Value                                        |
+   | ------------------------------- | -------------------------------------------- |
+   | `VITE_SUPABASE_URL`             | Backend URL (same as in `.env`)              |
+   | `VITE_SUPABASE_PUBLISHABLE_KEY` | Public key (same as in `.env`)               |
+   | `VITE_SUPABASE_PROJECT_ID`      | Project ID (same as in `.env`)               |
+   | `SUPABASE_URL`                  | Same value as `VITE_SUPABASE_URL`            |
+   | `SUPABASE_PUBLISHABLE_KEY`      | Same value as `VITE_SUPABASE_PUBLISHABLE_KEY`|
+   | `SUPABASE_SERVICE_ROLE_KEY`     | Private server key (see note below)          |
+
+5. Click **Deploy**. Netlify detects itself during the build and packages the
+   server code as a Netlify Function automatically.
+
+### Important note on the private key
+
+The quote, meeting and contact forms, and images uploaded through the admin
+page, are handled on the server with a private backend key
+(`SUPABASE_SERVICE_ROLE_KEY`). Lovable Cloud does not hand this key out, so on a
+Netlify copy those features will not work until the site is connected to a
+backend you control. Every other page (services, pricing, portfolio,
+resources, admin sign-in and editing) works with the public keys alone. The
+version published from Lovable has every feature working.
+
+## Updating content
+
+Sign in at `/auth`, then open `/admin` to edit services, prices, portfolio
+pieces, testimonials, FAQs, articles and company details, and to read
+enquiries. The first account created becomes the administrator.
+
+## Project structure
+
+```
+src/
+  routes/          One file per page (file-based routing)
+  components/site/ Shared site sections, motifs and layout
+  components/admin Admin page panels
+  hooks/           Scroll-reveal and pointer animation hooks
+  lib/             Site content, enquiry rules and server functions
+  styles.css       Design tokens, motion and patterns
+```
+
+---
+
+© Hart Global Technologies. All rights reserved.

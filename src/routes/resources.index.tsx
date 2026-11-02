@@ -46,9 +46,9 @@ function Resources() {
         <section className="border-t border-border bg-muted">
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
             <h2 className="text-4xl">Articles</h2>
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div data-reveal-stagger className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {articles.map((a) => (
-                <Link key={a.id} to="/resources/$slug" params={{ slug: a.slug }} className="card-parchment block p-7 transition-transform hover:-translate-y-1">
+                <Link key={a.id} to="/resources/$slug" params={{ slug: a.slug }} className="card-parchment card-lift block p-7">
                   {a.published_at && <p className="eyebrow mb-2">{new Date(a.published_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>}
                   <h3 className="text-2xl">{a.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{a.excerpt}</p>

@@ -10,7 +10,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
   const { settings } = useSiteContent();
   return (
     <Link to="/" className={`group inline-flex items-baseline gap-2 ${className}`} aria-label={`${companyName(settings)} — home`}>
-      <span className="font-blackletter text-3xl leading-none">{companyName(settings)}</span>
+      <span className="font-blackletter text-3xl leading-none transition-colors duration-500 group-hover:text-gold-soft">{companyName(settings)}</span>
     </Link>
   );
 }
@@ -18,7 +18,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-soft section-ink">
+    <header className="site-header sticky top-0 z-40 border-b border-ink-soft section-ink">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:px-8">
         <Wordmark className="text-ink-foreground" />
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
@@ -26,7 +26,7 @@ export function SiteHeader() {
             <Link
               key={n.to}
               to={n.to}
-              className="text-sm tracking-wide text-ink-muted transition-colors hover:text-gold-soft"
+              className="link-draw text-sm tracking-wide text-ink-muted transition-colors duration-300 hover:text-gold-soft"
               activeProps={{ className: "text-gold-soft" }}
             >
               {n.label}
@@ -46,9 +46,9 @@ export function SiteHeader() {
             <SheetContent side="right" className="section-ink border-ink-soft">
               <SheetTitle className="font-blackletter text-3xl font-normal text-gold-soft">Menu</SheetTitle>
               <nav className="mt-8 flex flex-col gap-1" aria-label="Mobile">
-                <Link to="/" onClick={() => setOpen(false)} className="py-3 font-display text-2xl">Home</Link>
+                <Link to="/" onClick={() => setOpen(false)} className="py-3 font-display text-2xl transition-colors hover:text-gold-soft">Home</Link>
                 {NAV.map((n) => (
-                  <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="py-3 font-display text-2xl">
+                  <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="py-3 font-display text-2xl transition-colors hover:text-gold-soft">
                     {n.label}
                   </Link>
                 ))}

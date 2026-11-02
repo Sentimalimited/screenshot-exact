@@ -1,13 +1,19 @@
 import { cn } from "@/lib/utils";
 
-/** Restrained gold divider with a central diamond. */
+/** Gold divider with a central diamond flanked by beadwork. */
 export function Ornament({ className }: { className?: string }) {
   return (
-    <div className={cn("flex items-center gap-3 text-gold", className)} aria-hidden>
+    <div className={cn("ornament-draw flex items-center gap-3 text-gold", className)} data-reveal-ornament aria-hidden>
       <span className="rule-gold h-px flex-1" />
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <path d="M9 1 L12 9 L9 17 L6 9 Z" fill="currentColor" opacity="0.85" />
-        <circle cx="9" cy="9" r="1.4" fill="var(--color-ink)" />
+      <svg width="54" height="18" viewBox="0 0 54 18" fill="none">
+        <circle cx="4" cy="9" r="2" className="fill-seal" />
+        <circle cx="10" cy="9" r="2" fill="currentColor" />
+        <circle cx="16" cy="9" r="2" className="fill-ink-muted" />
+        <path d="M27 1 L30 9 L27 17 L24 9 Z" fill="currentColor" opacity="0.9" />
+        <circle cx="27" cy="9" r="1.4" className="fill-seal" />
+        <circle cx="38" cy="9" r="2" className="fill-ink-muted" />
+        <circle cx="44" cy="9" r="2" fill="currentColor" />
+        <circle cx="50" cy="9" r="2" className="fill-seal" />
       </svg>
       <span className="rule-gold h-px flex-1" />
     </div>
@@ -48,7 +54,7 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div className={cn(align === "center" && "mx-auto text-center", "max-w-2xl", className)}>
+    <div data-reveal className={cn(align === "center" && "mx-auto text-center", "max-w-2xl", className)}>
       {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
       <Tag className={cn(Tag === "h1" ? "text-5xl md:text-6xl" : "text-4xl md:text-5xl")}>{title}</Tag>
       {intro && <p className="mt-4 text-lg leading-relaxed opacity-80">{intro}</p>}

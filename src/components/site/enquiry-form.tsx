@@ -20,7 +20,7 @@ import { useSiteContent } from "@/lib/content-query";
 type Values = Record<string, string>;
 
 const selectClass =
-  "flex h-10 w-full rounded-sm border border-input bg-card px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "flex h-10 w-full rounded-md border border-input bg-card px-3 text-sm transition-[border-color,box-shadow] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 function Field({ id, label, required, error, children, hint }: { id: string; label: string; required?: boolean | undefined; error?: string | undefined; hint?: string | undefined; children: ReactNode }) {
   return (
@@ -130,7 +130,7 @@ export function EnquiryForm({
               ["meeting", "A school meeting", "Discuss services and a quotation"],
               ["ai_talk", "A free AI talk", "For your teaching staff"],
             ] as const).map(([k, title, sub]) => (
-              <label key={k} className={`cursor-pointer rounded-sm border p-4 transition-colors ${kind === k ? "border-gold bg-accent" : "border-border bg-card hover:border-gold/60"}`}>
+              <label key={k} className={`cursor-pointer rounded-md border p-4 transition-all duration-300 ${kind === k ? "border-gold bg-accent" : "border-border bg-card hover:border-gold/60"}`}>
                 <input type="radio" name="kind" value={k} checked={kind === k} onChange={() => setKind(k)} className="sr-only" />
                 <span className="block font-display text-lg font-semibold">{title}</span>
                 <span className="text-xs text-muted-foreground">{sub}</span>
@@ -212,7 +212,7 @@ export function EnquiryForm({
 
       {isQuote && (
         <Field id="attachment" label="Attachment (optional)" error={errors["attachment"]} hint="Sample design, wording or list of items. PDF, JPG, PNG or Word, up to 5 MB.">
-          <label htmlFor="attachment" className="flex cursor-pointer items-center gap-3 rounded-sm border border-dashed border-input bg-card px-4 py-3 text-sm hover:border-gold">
+          <label htmlFor="attachment" className="flex cursor-pointer items-center gap-3 rounded-md border border-dashed border-input bg-card px-4 py-3 text-sm hover:border-gold">
             <Paperclip className="size-4 text-gold" />
             <span className="truncate">{file ? file.name : "Choose a file"}</span>
           </label>
@@ -231,7 +231,7 @@ export function EnquiryForm({
         {errors["consent"] && <p className="text-xs font-medium text-destructive" role="alert">{errors["consent"]}</p>}
       </div>
 
-      {serverError && <p className="rounded-sm border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive" role="alert">{serverError}</p>}
+      {serverError && <p className="rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive" role="alert">{serverError}</p>}
 
       <Button type="submit" variant="seal" size="lg" disabled={status === "sending"} className="w-full md:w-auto">
         {status === "sending" && <Loader2 className="animate-spin" />}
