@@ -16,3 +16,5 @@
 - Admin access is a role in `user_roles`; the first account created becomes admin via a database trigger.
 - A pathless `_authenticated` layout must always have at least one child route, or it collides with `/`.
 - Scroll reveal state is set via data attributes (data-shown, data-reveal-ready) only after initial hydration, never className/style, because changing React-owned attributes before hydration causes mismatches.
+- Netlify self-hosting relies on nitro's zero-config preset detection (no preset pinned in vite.config.ts) plus `netlify.toml` publishing `dist`, so Lovable builds keep their own pinned preset.
+- Pointer effects (`data-tilt`, `data-spotlight`, `data-magnetic`) are driven by one delegated listener in `use-pointer-fx.ts` that writes CSS custom properties after hydration, never React state, to stay hydration-safe and cheap.

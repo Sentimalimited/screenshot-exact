@@ -526,6 +526,152 @@
   border-color: color-mix(in oklab, var(--gold) 25%, transparent);
 }
 
+/* ---------- African motifs & pointer effects ---------- */
+
+@property --mx {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 70%;
+}
+@property --my {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 30%;
+}
+
+/* Beadwork strip travels one pattern width, seamlessly */
+@keyframes bead-travel {
+  to {
+    transform: translateX(-40px);
+  }
+}
+.bead-track {
+  animation: bead-travel 3.6s linear infinite;
+}
+
+/* Kitenge lattice drifts diagonally, faded at the edges */
+@keyframes kitenge-drift {
+  to {
+    transform: translate(56px, 56px);
+  }
+}
+.kitenge-track {
+  opacity: 0.13;
+  animation: kitenge-drift 48s linear infinite;
+}
+.kitenge-mask {
+  mask-image: radial-gradient(ellipse at 70% 40%, black 10%, transparent 75%);
+}
+
+/* Beaded collar turns slowly once the seal is pressed */
+@keyframes collar-in {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes collar-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+.collar-spin {
+  animation:
+    collar-in 1s var(--ease-stamp) 1.6s both,
+    collar-turn 60s linear 1.6s infinite;
+}
+
+/* Gold dust glinting */
+@keyframes glint {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1);
+    box-shadow: 0 0 12px 2px color-mix(in oklab, var(--gold-soft) 70%, transparent);
+  }
+}
+.spark {
+  opacity: 0;
+  animation: glint 4.5s var(--ease-premium) infinite;
+}
+
+/* Gold glow that follows the cursor (and drifts on its own for touch screens) */
+@keyframes spotlight-idle {
+  0%,
+  100% {
+    --mx: 72%;
+    --my: 28%;
+  }
+  50% {
+    --mx: 30%;
+    --my: 70%;
+  }
+}
+[data-spotlight] {
+  position: relative;
+  isolation: isolate;
+  transition:
+    --mx 700ms var(--ease-premium),
+    --my 700ms var(--ease-premium);
+}
+[data-spotlight]:not([data-fx-active]) {
+  animation: spotlight-idle 16s ease-in-out infinite;
+}
+[data-spotlight]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(520px circle at var(--mx) var(--my), color-mix(in oklab, var(--gold) 20%, transparent), transparent 62%),
+    radial-gradient(380px circle at calc(100% - var(--mx)) calc(100% - var(--my)), color-mix(in oklab, var(--seal) 22%, transparent), transparent 65%);
+}
+
+/* 3D tilt with a travelling gold glare */
+[data-tilt] {
+  transform-style: preserve-3d;
+  transition:
+    transform 900ms var(--ease-premium),
+    box-shadow var(--dur-base) var(--ease-premium),
+    border-color var(--dur-base) var(--ease-premium);
+}
+[data-tilt][data-fx-active] {
+  transform: perspective(1100px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) translateY(-6px);
+  transition-duration: 260ms, var(--dur-base), var(--dur-base);
+}
+[data-tilt-glare] {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--mx) var(--my),
+    color-mix(in oklab, var(--gold-soft) 38%, transparent),
+    transparent 60%
+  );
+  mix-blend-mode: soft-light;
+  transition: opacity 600ms var(--ease-premium);
+}
+[data-fx-active] > [data-tilt-glare],
+[data-fx-active] > * > [data-tilt-glare] {
+  opacity: 1;
+}
+
+/* Buttons lean towards the cursor */
+[data-magnetic][data-fx-active] {
+  transform: translate3d(var(--tx, 0px), calc(var(--ty, 0px) - 2px), 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -3,6 +3,7 @@ import { ClipboardList, FileCheck2, GraduationCap, Handshake, ShieldCheck, Spark
 import { Button } from "@/components/ui/button";
 import { CtaBand, FaqList, ServiceCard } from "@/components/site/blocks";
 import { Ornament, SectionHeading, Seal } from "@/components/site/ornament";
+import { BeadBand, BeadedCollar, GoldDust, KitengeBackdrop } from "@/components/site/african";
 import { WhatsAppIcon } from "@/components/site/whatsapp-float";
 import { useSiteContent } from "@/lib/content-query";
 import { COVERAGE, companyName, seo, whatsappLink } from "@/lib/site";
@@ -64,7 +65,9 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="section-ink relative overflow-hidden">
+      <section data-spotlight className="section-ink relative overflow-hidden">
+        <KitengeBackdrop />
+        <GoldDust />
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:px-8 lg:grid-cols-12 lg:py-24">
           <div className="lg:col-span-6">
             <p className="eyebrow mb-5 animate-rise">Teacher-led school services · Western Kenya</p>
@@ -76,8 +79,8 @@ function Home() {
               hand-lettered certificates and more — reliably, affordably and properly documented.
             </p>
             <div className="mt-9 flex flex-wrap gap-3 animate-rise delay-3">
-              <Button asChild variant="gold" size="lg"><Link to="/request-a-quote">Request a quote</Link></Button>
-              <Button asChild variant="whatsapp" size="lg">
+              <Button asChild variant="gold" size="lg" data-magnetic><Link to="/request-a-quote">Request a quote</Link></Button>
+              <Button asChild variant="whatsapp" size="lg" data-magnetic>
                 <a href={whatsappLink(settings)} target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> Contact on WhatsApp</a>
               </Button>
             </div>
@@ -86,12 +89,19 @@ function Home() {
             </p>
           </div>
           <div className="relative lg:col-span-6">
-            <div className="frame-gold animate-unveil overflow-hidden">
-              <img src={hero} alt="A calligrapher hand-lettering a Gothic certificate beside a red wax seal" width={1600} height={1104} className="aspect-[4/3] w-full object-cover" fetchPriority="high" />
+            <div data-tilt className="relative">
+              <div className="frame-gold animate-unveil overflow-hidden">
+                <img src={hero} alt="A Kenyan teacher hand-lettering a school certificate beside a red wax seal and a Maasai shuka" width={1600} height={1104} className="aspect-[4/3] w-full object-cover" fetchPriority="high" />
+                <span data-tilt-glare />
+              </div>
             </div>
-            <Seal letter={name.charAt(0)} size={84} className="animate-stamp absolute -bottom-6 -left-4 md:-left-8" />
+            <span className="absolute -bottom-10 -left-8 inline-flex items-center justify-center md:-left-12" style={{ width: 124, height: 124 }}>
+              <BeadedCollar size={124} className="absolute inset-0" />
+              <Seal letter={name.charAt(0)} size={84} className="animate-stamp relative" />
+            </span>
           </div>
         </div>
+        <BeadBand />
       </section>
 
       {/* Intro */}

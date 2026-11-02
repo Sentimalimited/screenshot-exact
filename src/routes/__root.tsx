@@ -21,6 +21,7 @@ import { WhatsAppFloat } from "@/components/site/whatsapp-float";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useReveal, useScrolledFlag } from "@/hooks/use-reveal";
+import { usePointerFx } from "@/hooks/use-pointer-fx";
 
 function NotFoundComponent() {
   return (
@@ -163,6 +164,7 @@ function RootComponent() {
 
   useReveal(pathname);
   useScrolledFlag();
+  usePointerFx();
 
   return (
     <QueryClientProvider client={queryClient}>
