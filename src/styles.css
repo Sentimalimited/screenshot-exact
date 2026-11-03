@@ -490,15 +490,15 @@
 [data-reveal-ready] [data-reveal-stagger][data-shown] > * {
   animation: rise var(--dur-slow) var(--ease-premium) backwards;
 }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(2) { animation-delay: 90ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(3) { animation-delay: 180ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(4) { animation-delay: 270ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(5) { animation-delay: 360ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(6) { animation-delay: 450ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(7) { animation-delay: 540ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(8) { animation-delay: 630ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(9) { animation-delay: 720ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(10) { animation-delay: 810ms; }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(2) { animation-delay: calc(90ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(3) { animation-delay: calc(180ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(4) { animation-delay: calc(270ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(5) { animation-delay: calc(360ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(6) { animation-delay: calc(450ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(7) { animation-delay: calc(540ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(8) { animation-delay: calc(630ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(9) { animation-delay: calc(720ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(10) { animation-delay: calc(810ms * 0.6); }
 [data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(n + 11) { animation-delay: 900ms; }
 [data-instant],
 [data-instant] > * {
