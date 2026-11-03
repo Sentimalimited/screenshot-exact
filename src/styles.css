@@ -695,9 +695,9 @@ html.lenis body {
   backdrop-filter: blur(18px) saturate(1.2);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
   transition:
-    opacity 800ms var(--ease-premium),
-    backdrop-filter 800ms var(--ease-premium),
-    visibility 0s linear 800ms;
+    opacity 450ms var(--ease-premium),
+    backdrop-filter 450ms var(--ease-premium),
+    visibility 0s linear 450ms;
   animation: loader-fallback 0s linear 5s forwards;
 }
 .page-loader[data-done] {

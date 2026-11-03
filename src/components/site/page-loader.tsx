@@ -18,16 +18,16 @@ export function PageLoader() {
       if (done) return;
       done = true;
       el.setAttribute("data-done", "");
-      window.setTimeout(() => el.setAttribute("hidden", ""), 900);
+      window.setTimeout(() => el.setAttribute("hidden", ""), 500);
     };
     const pageLoaded = new Promise<void>((resolve) => {
       if (document.readyState === "complete") resolve();
       else window.addEventListener("load", () => resolve(), { once: true });
     });
     const fontsLoaded = document.fonts?.ready ?? Promise.resolve();
-    const minShow = new Promise((r) => window.setTimeout(r, 450));
+    const minShow = new Promise((r) => window.setTimeout(r, 300));
     Promise.all([pageLoaded, fontsLoaded, minShow]).then(finish, finish);
-    const cap = window.setTimeout(finish, 6000);
+    const cap = window.setTimeout(finish, 2500);
     return () => window.clearTimeout(cap);
   }, []);
 
