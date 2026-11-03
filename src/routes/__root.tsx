@@ -22,6 +22,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useReveal, useScrolledFlag } from "@/hooks/use-reveal";
 import { usePointerFx } from "@/hooks/use-pointer-fx";
+import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
+import { PageLoader } from "@/components/site/page-loader";
 
 function NotFoundComponent() {
   return (
@@ -135,7 +137,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" data-loading="">
       <head>
         <HeadContent />
       </head>
@@ -165,9 +167,11 @@ function RootComponent() {
   useReveal(pathname);
   useScrolledFlag();
   usePointerFx();
+  useSmoothScroll();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <PageLoader />
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-gold focus:px-4 focus:py-2 focus:text-gold-foreground">
         Skip to content
       </a>
