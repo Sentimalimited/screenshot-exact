@@ -304,7 +304,7 @@
   }
 }
 @utility animate-page {
-  animation: page-in 500ms var(--ease-premium) both;
+  animation: page-in 200ms var(--ease-premium) both;
 }
 
 /* Image unveiled like a certificate drawn from its sleeve */
