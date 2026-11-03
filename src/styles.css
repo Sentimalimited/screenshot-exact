@@ -304,7 +304,7 @@
   }
 }
 @utility animate-page {
-  animation: page-in 500ms var(--ease-premium) both;
+  animation: page-in 200ms var(--ease-premium) both;
 }
 
 /* Image unveiled like a certificate drawn from its sleeve */
@@ -490,16 +490,16 @@
 [data-reveal-ready] [data-reveal-stagger][data-shown] > * {
   animation: rise var(--dur-slow) var(--ease-premium) backwards;
 }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(2) { animation-delay: 90ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(3) { animation-delay: 180ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(4) { animation-delay: 270ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(5) { animation-delay: 360ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(6) { animation-delay: 450ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(7) { animation-delay: 540ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(8) { animation-delay: 630ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(9) { animation-delay: 720ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(10) { animation-delay: 810ms; }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(n + 11) { animation-delay: 900ms; }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(2) { animation-delay: calc(90ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(3) { animation-delay: calc(180ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(4) { animation-delay: calc(270ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(5) { animation-delay: calc(360ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(6) { animation-delay: calc(450ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(7) { animation-delay: calc(540ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(8) { animation-delay: calc(630ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(9) { animation-delay: calc(720ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(10) { animation-delay: calc(810ms * 0.6); }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(n + 11) { animation-delay: 540ms; }
 [data-instant],
 [data-instant] > * {
   animation: none !important;
@@ -695,9 +695,9 @@ html.lenis body {
   backdrop-filter: blur(18px) saturate(1.2);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
   transition:
-    opacity 800ms var(--ease-premium),
-    backdrop-filter 800ms var(--ease-premium),
-    visibility 0s linear 800ms;
+    opacity 450ms var(--ease-premium),
+    backdrop-filter 450ms var(--ease-premium),
+    visibility 0s linear 450ms;
   animation: loader-fallback 0s linear 5s forwards;
 }
 .page-loader[data-done] {
