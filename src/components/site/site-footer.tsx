@@ -63,7 +63,7 @@ export function SiteFooter() {
         </div>
         <Ornament className="mt-14" />
         <div className="mt-6 flex flex-col justify-between gap-3 text-xs text-ink-muted md:flex-row">
-          <p>© {new Date().getFullYear()} {name}. Founded by teachers in Western Kenya.</p>
+          <p>© {new Date().getFullYear()} {name}.</p>
           <p>This website does not collect learner personal data.</p>
         </div>
       </div>
