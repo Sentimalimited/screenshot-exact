@@ -2,8 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { enquirySchema, submittedTooFast, MAX_ATTACHMENT_BYTES } from "./enquiry-schema";
 
 /**
- * Public endpoint: validates, filters spam, rate-limits by email, then stores
- * the enquiry with the privileged client (anonymous visitors cannot write the table).
+ * Public endpoint: validates, filters spam, rate-limits by email, stores the
+ * enquiry with the privileged client (anonymous visitors cannot write the table)
+ * and copies it to Airtable. Succeeds if at least one destination accepted it.
  */
 export const submitEnquiry = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => enquirySchema.parse(input))
@@ -13,20 +14,23 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       throw new Error("Please take a moment to complete the form and try again.");
     }
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const hasDb = Boolean(process.env["SUPABASE_SERVICE_ROLE_KEY"]);
+    const supabaseAdmin = hasDb ? (await import("@/integrations/supabase/client.server")).supabaseAdmin : null;
 
-    const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
-    const { count } = await supabaseAdmin
-      .from("enquiries")
-      .select("id", { count: "exact", head: true })
-      .eq("email", data.email)
-      .gte("created_at", since);
-    if ((count ?? 0) >= 3) {
-      throw new Error("We have received several messages from this email recently. Please try again later or contact us on WhatsApp.");
+    if (supabaseAdmin) {
+      const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+      const { count } = await supabaseAdmin
+        .from("enquiries")
+        .select("id", { count: "exact", head: true })
+        .eq("email", data.email)
+        .gte("created_at", since);
+      if ((count ?? 0) >= 3) {
+        throw new Error("We have received several messages from this email recently. Please try again later or contact us on WhatsApp.");
+      }
     }
 
     let attachment_path: string | null = null;
-    if (data.attachment) {
+    if (data.attachment && supabaseAdmin) {
       const bytes = Uint8Array.from(atob(data.attachment.base64), (c) => c.charCodeAt(0));
       if (bytes.byteLength > MAX_ATTACHMENT_BYTES) throw new Error("Attachment is larger than 5 MB.");
       const safeName = data.attachment.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-80);
@@ -53,18 +57,25 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       preferred_date: data.preferred_date ?? null,
       attachment_path,
     };
-    const { error } = await supabaseAdmin.from("enquiries").insert({ ...record, consent: data.consent });
-    if (error) {
-      console.error("enquiry insert failed", error.message);
-      throw new Error("Sorry, your message could not be sent. Please try again or contact us on WhatsApp.");
+
+    let saved = false;
+    if (supabaseAdmin) {
+      const { error } = await supabaseAdmin.from("enquiries").insert({ ...record, consent: data.consent });
+      if (error) console.error("enquiry insert failed", error.message);
+      else saved = true;
     }
 
-    // Copy to Airtable; the saved database row means nothing is lost if this fails.
+    let synced = false;
     try {
       const { sendEnquiryToAirtable } = await import("./airtable.server");
       await sendEnquiryToAirtable(record);
+      synced = true;
     } catch (err) {
       console.error("airtable sync failed", err instanceof Error ? err.message : err);
+    }
+
+    if (!saved && !synced) {
+      throw new Error("Sorry, your message could not be sent. Please try again or contact us on WhatsApp.");
     }
     return { ok: true as const };
   });
