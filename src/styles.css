@@ -499,7 +499,7 @@
 [data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(8) { animation-delay: calc(630ms * 0.6); }
 [data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(9) { animation-delay: calc(720ms * 0.6); }
 [data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(10) { animation-delay: calc(810ms * 0.6); }
-[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(n + 11) { animation-delay: 900ms; }
+[data-reveal-ready] [data-reveal-stagger][data-shown] > :nth-child(n + 11) { animation-delay: 540ms; }
 [data-instant],
 [data-instant] > * {
   animation: none !important;
