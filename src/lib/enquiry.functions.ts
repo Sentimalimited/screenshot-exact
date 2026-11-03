@@ -38,7 +38,7 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       attachment_path = path;
     }
 
-    const { error } = await supabaseAdmin.from("enquiries").insert({
+    const record = {
       kind: data.kind,
       organisation: data.organisation ?? null,
       contact_name: data.contact_name,
@@ -52,11 +52,19 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       timeframe: data.timeframe ?? null,
       preferred_date: data.preferred_date ?? null,
       attachment_path,
-      consent: data.consent,
-    });
+    };
+    const { error } = await supabaseAdmin.from("enquiries").insert({ ...record, consent: data.consent });
     if (error) {
       console.error("enquiry insert failed", error.message);
       throw new Error("Sorry, your message could not be sent. Please try again or contact us on WhatsApp.");
+    }
+
+    // Copy to Airtable; the saved database row means nothing is lost if this fails.
+    try {
+      const { sendEnquiryToAirtable } = await import("./airtable.server");
+      await sendEnquiryToAirtable(record);
+    } catch (err) {
+      console.error("airtable sync failed", err instanceof Error ? err.message : err);
     }
     return { ok: true as const };
   });
