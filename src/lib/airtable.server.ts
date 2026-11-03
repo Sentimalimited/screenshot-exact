@@ -32,7 +32,14 @@ export type EnquiryRecord = {
 
 let cachedBaseId: string | null = null;
 
-function headers() {
+/** Direct Airtable token (for self-hosting, e.g. Netlify) or the Lovable connector gateway. */
+function endpoint() {
+  return process.env["AIRTABLE_TOKEN"] ? "https://api.airtable.com" : GATEWAY_URL;
+}
+
+function headers(): Record<string, string> {
+  const direct = process.env["AIRTABLE_TOKEN"];
+  if (direct) return { Authorization: `Bearer ${direct}`, "Content-Type": "application/json" };
   const lovable = process.env["LOVABLE_API_KEY"];
   const airtable = process.env["AIRTABLE_API_KEY"];
   if (!lovable || !airtable) throw new Error("Airtable connection is not configured");
@@ -46,7 +53,7 @@ function headers() {
 async function findBaseId(): Promise<string> {
   if (process.env["AIRTABLE_BASE_ID"]) return process.env["AIRTABLE_BASE_ID"];
   if (cachedBaseId) return cachedBaseId;
-  const res = await fetch(`${GATEWAY_URL}/v0/meta/bases`, { headers: headers() });
+  const res = await fetch(`${endpoint()}/v0/meta/bases`, { headers: headers() });
   if (!res.ok) throw new Error(`Airtable list bases failed [${res.status}]: ${await res.text()}`);
   const body = (await res.json()) as { bases: { id: string; name: string }[] };
   const base = body.bases.find((b) => b.name.trim().toLowerCase() === AIRTABLE_BASE_NAME.toLowerCase());
@@ -81,7 +88,7 @@ export function toAirtableFields(e: EnquiryRecord, receivedAt: string) {
 
 export async function sendEnquiryToAirtable(e: EnquiryRecord, receivedAt = new Date().toISOString()) {
   const baseId = await findBaseId();
-  const res = await fetch(`${GATEWAY_URL}/v0/${baseId}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`, {
+  const res = await fetch(`${endpoint()}/v0/${baseId}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`, {
     method: "POST",
     headers: headers(),
     body: JSON.stringify({ records: [{ fields: toAirtableFields(e, receivedAt) }], typecast: true }),
