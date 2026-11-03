@@ -18,3 +18,4 @@
 - Scroll reveal state is set via data attributes (data-shown, data-reveal-ready) only after initial hydration, never className/style, because changing React-owned attributes before hydration causes mismatches.
 - Netlify self-hosting relies on nitro's zero-config preset detection (no preset pinned in vite.config.ts) plus `netlify.toml` publishing `dist`, so Lovable builds keep their own pinned preset.
 - Pointer effects (`data-tilt`, `data-spotlight`, `data-magnetic`) are driven by one delegated listener in `use-pointer-fx.ts` that writes CSS custom properties after hydration, never React state, to stay hydration-safe and cheap.
+- Enquiries are copied to Airtable (base "Sentima Enquiries", table "Enquiries") from `submitEnquiry` after the database insert via `airtable.server.ts`; Airtable failures are logged and never block the visitor, because the database row is the source of truth.
