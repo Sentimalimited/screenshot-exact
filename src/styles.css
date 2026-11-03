@@ -140,9 +140,6 @@
   html {
     scroll-behavior: smooth;
   }
-  html[data-loading] {
-    overflow: hidden;
-  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -701,7 +698,7 @@ html.lenis body {
     opacity 800ms var(--ease-premium),
     backdrop-filter 800ms var(--ease-premium),
     visibility 0s linear 800ms;
-  animation: loader-fallback 0s linear 8s forwards;
+  animation: loader-fallback 0s linear 5s forwards;
 }
 .page-loader[data-done] {
   opacity: 0;

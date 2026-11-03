@@ -18,7 +18,6 @@ export function PageLoader() {
       if (done) return;
       done = true;
       el.setAttribute("data-done", "");
-      document.documentElement.removeAttribute("data-loading");
       window.setTimeout(() => el.setAttribute("hidden", ""), 900);
     };
     const pageLoaded = new Promise<void>((resolve) => {
