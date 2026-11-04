@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/integrations/supabase/types";
+import { createPublicDb } from "@/lib/public-db";
 
 const STATIC = ["/", "/about", "/services", "/portfolio", "/pricing", "/resources", "/contact", "/request-a-quote", "/book-a-meeting", "/privacy"];
 
@@ -9,18 +8,7 @@ export const Route = createFileRoute("/sitemap.xml")({
     handlers: {
       GET: async ({ request }) => {
         const origin = new URL(request.url).origin;
-        const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
-        const db = createClient<Database>(process.env["SUPABASE_URL"]!, key, {
-          auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
-          global: {
-            fetch: (input, init) => {
-              const h = new Headers(init?.headers);
-              if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) h.delete("Authorization");
-              h.set("apikey", key);
-              return fetch(input, { ...init, headers: h });
-            },
-          },
-        });
+        const db = createPublicDb();
         const [services, articles] = await Promise.all([
           db.from("services").select("slug, updated_at"),
           db.from("articles").select("slug, updated_at"),
