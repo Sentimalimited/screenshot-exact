@@ -46,16 +46,10 @@ The project is ready for Netlify — `netlify.toml` already sets the build.
 3. Netlify reads `netlify.toml`, so keep the defaults:
    - Build command: `npm run build`
    - Publish directory: `dist`
-4. Under **Site configuration → Environment variables**, add:
-
-   | Name                            | Value                                        |
-   | ------------------------------- | -------------------------------------------- |
-   | `VITE_SUPABASE_URL`             | Backend URL (same as in `.env`)              |
-   | `VITE_SUPABASE_PUBLISHABLE_KEY` | Public key (same as in `.env`)               |
-   | `VITE_SUPABASE_PROJECT_ID`      | Project ID (same as in `.env`)               |
-   | `SUPABASE_URL`                  | Same value as `VITE_SUPABASE_URL`            |
-   | `SUPABASE_PUBLISHABLE_KEY`      | Same value as `VITE_SUPABASE_PUBLISHABLE_KEY`|
-   | `SUPABASE_SERVICE_ROLE_KEY`     | Private server key (see note below)          |
+4. Environment variables are optional. The public backend address and key are
+   built into the site from `.env`, so every page loads without extra setup.
+   Only add `SUPABASE_SERVICE_ROLE_KEY` (and `AIRTABLE_TOKEN` for Airtable) under
+   **Site configuration → Environment variables** if you have them (see below).
 
 5. Click **Deploy**. Netlify detects itself during the build and packages the
    server code as a Netlify Function automatically.
