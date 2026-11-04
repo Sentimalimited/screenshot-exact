@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { BeadedCollar } from "./african";
+import sealLogo from "@/assets/sentima-seal.webp";
 
 /**
  * Full-screen loader shown from the first server paint until the page,
@@ -37,9 +38,7 @@ export function PageLoader() {
         <span className="relative inline-flex items-center justify-center" style={{ width: 132, height: 132 }}>
           <BeadedCollar size={132} className="absolute inset-0" />
           <span className="page-loader__ring" aria-hidden />
-          <span className="relative inline-flex size-20 items-center justify-center rounded-full bg-seal font-blackletter text-4xl text-seal-foreground shadow-seal">
-            S
-          </span>
+          <img src={sealLogo} alt="" aria-hidden width={88} height={88} className="relative size-[88px] rounded-full shadow-seal" />
         </span>
         <p className="page-loader__word font-blackletter text-3xl text-gold">Sentima</p>
         <span className="page-loader__bar" aria-hidden><span /></span>
