@@ -47,10 +47,25 @@ function NotFoundComponent() {
   );
 }
 
+const STALE_CHUNK = /Failed to fetch dynamically imported module|Importing a module script failed|error loading dynamically imported module/i;
+
+/** After a redeploy or preview restart, old page code may be gone: reload once to fetch the new version. */
+function reloadOnceForStaleChunk(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error ?? "");
+  if (!STALE_CHUNK.test(message)) return false;
+  const key = "sentima-chunk-reload";
+  const last = Number(window.sessionStorage.getItem(key) ?? 0);
+  if (Date.now() - last < 10_000) return false;
+  window.sessionStorage.setItem(key, String(Date.now()));
+  window.location.reload();
+  return true;
+}
+
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
+    if (reloadOnceForStaleChunk(error)) return;
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
@@ -164,6 +179,15 @@ function RootComponent() {
     });
     return () => data.subscription.unsubscribe();
   }, [router, queryClient]);
+
+  useEffect(() => {
+    const onPreloadError = (event: Event) => {
+      const payload = (event as Event & { payload?: unknown }).payload;
+      if (reloadOnceForStaleChunk(payload ?? new Error("Failed to fetch dynamically imported module"))) event.preventDefault();
+    };
+    window.addEventListener("vite:preloadError", onPreloadError);
+    return () => window.removeEventListener("vite:preloadError", onPreloadError);
+  }, []);
 
   useReveal(pathname);
   useScrolledFlag();
