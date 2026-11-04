@@ -1,27 +1,18 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
-import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/integrations/supabase/types";
 import type { SiteContent } from "./site";
-
-function publicClient() {
-  const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
-  return createClient<Database>(process.env["SUPABASE_URL"]!, key, {
-    auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
-    global: {
-      fetch: (input, init) => {
-        const h = new Headers(init?.headers);
-        if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) h.delete("Authorization");
-        h.set("apikey", key);
-        return fetch(input, { ...init, headers: h });
-      },
-    },
-  });
-}
+import { createPublicDb as publicClient } from "./public-db";
 
 /** All published public content in one request (small dataset). */
 export const getSiteContent = createServerFn({ method: "GET" }).handler(async (): Promise<SiteContent> => {
-  const db = publicClient();
+  let db: ReturnType<typeof publicClient>;
+  try {
+    db = publicClient();
+  } catch (error) {
+    // Never take the whole site down if the backend settings are missing.
+    console.error(error);
+    return { settings: null, services: [], pricing: [], portfolio: [], testimonials: [], faqs: [], articles: [] };
+  }
   const [settings, services, pricing, portfolio, testimonials, faqs, articles] = await Promise.all([
     db.from("site_settings").select("*").eq("id", 1).maybeSingle(),
     db.from("services").select("*").order("sort_order"),

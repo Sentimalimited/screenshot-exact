@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { NAV, companyName } from "@/lib/site";
 import { useSiteContent } from "@/lib/content-query";
+import { Seal } from "./ornament";
 
 export function Wordmark({ className = "" }: { className?: string }) {
   const { settings } = useSiteContent();
   return (
-    <Link to="/" className={`group inline-flex items-baseline gap-2 ${className}`} aria-label={`${companyName(settings)} — home`}>
+    <Link to="/" className={`group inline-flex items-center gap-2.5 ${className}`} aria-label={`${companyName(settings)} — home`}>
+      <Seal size={40} className="transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-105" />
       <span className="font-blackletter text-3xl leading-none transition-colors duration-500 group-hover:text-gold-soft">{companyName(settings)}</span>
     </Link>
   );

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import sealLogo from "@/assets/sentima-seal.webp";
 
 /** Gold divider with a central diamond flanked by beadwork. */
 export function Ornament({ className }: { className?: string }) {
@@ -20,21 +21,19 @@ export function Ornament({ className }: { className?: string }) {
   );
 }
 
-/** Wax-seal motif carrying the company initial. */
-export function Seal({ letter = "S", size = 56, className }: { letter?: string; size?: number; className?: string }) {
+/** The client's Sentima wax-seal logo. `letter` is kept for older call sites and ignored. */
+export function Seal({ size = 56, className, alt = "" }: { letter?: string; size?: number; className?: string; alt?: string }) {
   return (
-    <span
-      className={cn(
-        "inline-flex shrink-0 items-center justify-center rounded-full bg-seal font-blackletter text-seal-foreground shadow-seal",
-        className,
-      )}
-      style={{ width: size, height: size, fontSize: size * 0.52 }}
-      aria-hidden
-    >
-      <span className="flex h-[82%] w-[82%] items-center justify-center rounded-full border border-seal-foreground/30">
-        {letter}
-      </span>
-    </span>
+    <img
+      src={sealLogo}
+      alt={alt}
+      aria-hidden={alt ? undefined : true}
+      width={size}
+      height={size}
+      decoding="async"
+      className={cn("inline-block shrink-0 rounded-full shadow-seal", className)}
+      style={{ width: size, height: size }}
+    />
   );
 }
 

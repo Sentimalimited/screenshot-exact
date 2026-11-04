@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Mail, Phone } from "lucide-react";
 import { useSiteContent } from "@/lib/content-query";
 import { COVERAGE, companyName, whatsappLink } from "@/lib/site";
-import { Ornament } from "./ornament";
+import { Ornament, Seal } from "./ornament";
 
 export function SiteFooter() {
   const { settings, services } = useSiteContent();
@@ -12,7 +12,10 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-5 pb-10 pt-16 md:px-8">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-4">
-            <p className="font-blackletter text-4xl text-gold-soft">{name}</p>
+            <div className="flex items-center gap-3">
+              <Seal size={64} alt={`${name} seal`} />
+              <p className="font-blackletter text-4xl text-gold-soft">{name}</p>
+            </div>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-muted">
               {settings?.tagline}. A teacher-led school services company from Western Kenya.
             </p>
