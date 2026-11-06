@@ -24,6 +24,7 @@ import { useReveal, useScrolledFlag } from "@/hooks/use-reveal";
 import { usePointerFx } from "@/hooks/use-pointer-fx";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { PageLoader } from "@/components/site/page-loader";
+import { emptySiteContent, withPublicFallback } from "@/lib/public-content-safe";
 
 function NotFoundComponent() {
   return (
@@ -101,8 +102,12 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   loader: async ({ context }) => {
     const [content, origin] = await Promise.all([
-      context.queryClient.ensureQueryData(siteContentQuery),
-      getRequestOrigin(),
+      withPublicFallback(() => context.queryClient.ensureQueryData(siteContentQuery), () => {
+        const fallback = emptySiteContent();
+        context.queryClient.setQueryData(siteContentQuery.queryKey, fallback);
+        return fallback;
+      }),
+      withPublicFallback(() => getRequestOrigin(), () => ""),
     ]);
     return {
       origin,

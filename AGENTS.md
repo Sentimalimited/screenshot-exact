@@ -20,3 +20,5 @@
 - Pointer effects (`data-tilt`, `data-spotlight`, `data-magnetic`) are driven by one delegated listener in `use-pointer-fx.ts` that writes CSS custom properties after hydration, never React state, to stay hydration-safe and cheap.
 - Enquiries are copied to Airtable (base "Sentima Enquiries", table "Enquiries") from `submitEnquiry` after the database insert via `airtable.server.ts`; Airtable failures are logged and never block the visitor, because the database row is the source of truth.
 - Server-side public reads use `createPublicDb()` from `src/lib/public-db.ts`, which falls back to build-time VITE_* backend values, because self-hosts like Netlify don't inject runtime SUPABASE_* vars and a missing URL crashed every page.
+- Public reads additionally use publishable-only deployment defaults and bounded requests; loaders degrade to safe content rather than failing the whole website when its content service is unavailable.
+- The bulk calculator uses pure calculation rules and requester-entered rates, with user-initiated WhatsApp links and text exports; it must not infer commercial rates from descriptive pricing labels or imply an accepted order.

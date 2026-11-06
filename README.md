@@ -46,10 +46,11 @@ The project is ready for Netlify — `netlify.toml` already sets the build.
 3. Netlify reads `netlify.toml`, so keep the defaults:
    - Build command: `npm run build`
    - Publish directory: `dist`
-4. Environment variables are optional. The public backend address and key are
-   built into the site from `.env`, so every page loads without extra setup.
-   Only add `SUPABASE_SERVICE_ROLE_KEY` (and `AIRTABLE_TOKEN` for Airtable) under
-   **Site configuration → Environment variables** if you have them (see below).
+4. Public backend reads prefer runtime settings, then build-time `VITE_*`
+   settings, then bundled publishable-only defaults. No private key is bundled.
+   Missing runtime settings therefore do not crash the root loader. If the
+   content service is unavailable, pages render safely with empty content;
+   this does not guarantee that remote content or private actions are available.
 
 5. Click **Deploy**. Netlify detects itself during the build and packages the
    server code as a Netlify Function automatically.
@@ -65,6 +66,18 @@ resources, admin sign-in and editing) works with the public keys alone. The
 version published from Lovable has every feature working.
 
 ## Updating content
+
+### Bulk quotation calculator
+
+The pricing page includes student counts, requested ID card specifications,
+uniform label quantities and accessories. It exports a text quotation request
+or opens WhatsApp with the request filled in; the visitor confirms sending in
+WhatsApp. This does not use the WhatsApp Business API or place an order.
+
+No commercial prices or tiers have been supplied. The calculator therefore
+shows prices as unconfirmed unless the requester enters agreed rates. Optional
+student-count tiers apply the highest qualifying discount to all selected items.
+VAT, delivery and availability remain subject to written confirmation.
 
 Sign in at `/auth`, then open `/admin` to edit services, prices, portfolio
 pieces, testimonials, FAQs, articles and company details, and to read

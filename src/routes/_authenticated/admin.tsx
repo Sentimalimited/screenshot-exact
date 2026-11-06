@@ -9,7 +9,15 @@ import { EnquiriesPanel } from "@/components/admin/enquiries-panel";
 import { SettingsPanel } from "@/components/admin/settings-panel";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Administration — Sentima" }, { name: "robots", content: "noindex, nofollow" }] }),
+  head: () => ({ meta: [
+    { title: "Administration — Sentima" },
+    { name: "description", content: "Manage Sentima school services, content and enquiries." },
+    { property: "og:title", content: "Administration — Sentima" },
+    { property: "og:description", content: "Manage Sentima school services, content and enquiries." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+    { name: "robots", content: "noindex, nofollow" },
+  ] }),
   component: AdminPage,
 });
 
