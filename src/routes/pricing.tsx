@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { CtaBand, PageHeader } from "@/components/site/blocks";
 import { useSiteContent } from "@/lib/content-query";
 import { seo } from "@/lib/site";
+import { BulkQuoteCalculator } from "@/components/site/bulk-quote-calculator";
 
 export const Route = createFileRoute("/pricing")({
   head: ({ matches }) =>
@@ -30,6 +31,7 @@ function Pricing() {
   return (
     <>
       <PageHeader eyebrow="Pricing & packages" title="Honest pricing, confirmed in writing" intro="Most school services are priced per learner or per item. Because every school is different, we confirm the exact figure in a written quotation." />
+      <BulkQuoteCalculator settings={settings} />
 
       <section className="mx-auto max-w-7xl px-5 py-20 md:px-8">
         <h2 className="text-4xl">How pricing works</h2>
