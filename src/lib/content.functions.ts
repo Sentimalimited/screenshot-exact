@@ -2,9 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import type { SiteContent } from "./site";
 import { createPublicDb as publicClient } from "./public-db";
+import { emptySiteContent, withPublicFallback } from "./public-content-safe";
 
 /** All published public content in one request (small dataset). */
-export const getSiteContent = createServerFn({ method: "GET" }).handler(async (): Promise<SiteContent> => {
+export const getSiteContent = createServerFn({ method: "GET" }).handler(async (): Promise<SiteContent> => withPublicFallback(async () => {
   let db: ReturnType<typeof publicClient>;
   try {
     db = publicClient();
@@ -31,18 +32,18 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(async ()
     faqs: faqs.data ?? [],
     articles: articles.data ?? [],
   };
-});
+}, emptySiteContent));
 
 export const getArticle = createServerFn({ method: "GET" })
   .inputValidator((input: { slug: string }) => ({ slug: String(input.slug).slice(0, 200) }))
-  .handler(async ({ data }) => {
+  .handler(async ({ data }) => withPublicFallback(async () => {
     const { data: article } = await publicClient()
       .from("articles")
       .select("*")
       .eq("slug", data.slug)
       .maybeSingle();
     return article ?? null;
-  });
+  }, () => null));
 
 export const getRequestOrigin = createServerFn({ method: "GET" }).handler(() => {
   const req = getRequest();

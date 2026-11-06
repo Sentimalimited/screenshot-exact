@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createPublicDb } from "@/lib/public-db";
+import { withPublicFallback } from "@/lib/public-content-safe";
 
 const STATIC = ["/", "/about", "/services", "/portfolio", "/pricing", "/resources", "/contact", "/request-a-quote", "/book-a-meeting", "/privacy"];
 
@@ -8,11 +9,13 @@ export const Route = createFileRoute("/sitemap.xml")({
     handlers: {
       GET: async ({ request }) => {
         const origin = new URL(request.url).origin;
-        const db = createPublicDb();
-        const [services, articles] = await Promise.all([
+        const [services, articles] = await withPublicFallback(async () => {
+          const db = createPublicDb();
+          return Promise.all([
           db.from("services").select("slug, updated_at"),
           db.from("articles").select("slug, updated_at"),
-        ]);
+          ]);
+        }, () => [{ data: [] }, { data: [] }]);
         const urls = [
           ...STATIC.map((p) => ({ loc: p, lastmod: undefined as string | undefined })),
           ...(services.data ?? []).map((s) => ({ loc: `/services/${s.slug}`, lastmod: s.updated_at })),
