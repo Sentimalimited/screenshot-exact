@@ -32,8 +32,9 @@ export default defineConfig({
   // GitHub Pages serves files only. Other hosts retain the normal server build.
   ...(isGitHubPages ? { nitro: { preset: "github-pages" } } : {}),
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    server: { entry: "server" },
+    // Use the project-root-relative path so Vite/Nitro build the actual SSR handler,
+    // rather than falling back to the client HTML entry during the SSR build.
+    server: { entry: "src/server.ts" },
     ...(isGitHubPages
       ? {
           router: { basepath: pagesBase === "/" ? "/" : pagesBase.slice(0, -1) },
