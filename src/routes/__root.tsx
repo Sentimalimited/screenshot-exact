@@ -25,6 +25,7 @@ import { usePointerFx } from "@/hooks/use-pointer-fx";
 import { useSmoothScroll } from "@/hooks/use-smooth-scroll";
 import { PageLoader } from "@/components/site/page-loader";
 import { emptySiteContent, withPublicFallback } from "@/lib/public-content-safe";
+import { isStaticPublicSite, staticPublicSiteOrigin } from "@/lib/public-content-browser";
 
 function NotFoundComponent() {
   return (
@@ -107,7 +108,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         context.queryClient.setQueryData(siteContentQuery.queryKey, fallback);
         return fallback;
       }),
-      withPublicFallback(() => getRequestOrigin(), () => ""),
+      isStaticPublicSite ? Promise.resolve(staticPublicSiteOrigin()) : withPublicFallback(() => getRequestOrigin(), () => ""),
     ]);
     return {
       origin,
@@ -137,8 +138,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Libre+Franklin:wght@400;500;600;700&family=UnifrakturMaguntia&display=swap",
         },
         { rel: "stylesheet", href: appCss },
-        { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-        { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+        { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, type: "image/x-icon" },
+        { rel: "apple-touch-icon", href: `${import.meta.env.BASE_URL}apple-touch-icon.png` },
       ],
       scripts: gaId
         ? [

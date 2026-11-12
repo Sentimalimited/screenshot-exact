@@ -37,7 +37,26 @@ Useful commands:
 | `npm run test`   | Run the automated tests          |
 | `npm run lint`   | Check the code for mistakes      |
 
-## Deploy to Netlify
+## Deploy to GitHub Pages (public static copy)
+
+The workflow in `.github/workflows/static.yml` builds the website and publishes
+`.output/public`; it does not upload the repository source. It also supports
+repository addresses such as `https://username.github.io/repository-name/` and
+creates `404.html` so direct page links can open the app.
+
+1. Push the `main` branch to GitHub.
+2. Open **Settings → Pages** in the repository.
+3. Under **Build and deployment**, choose **GitHub Actions** as the source.
+4. Open **Actions → Deploy Sentima to GitHub Pages** and wait for it to finish.
+5. Use the website address shown by the deployment step.
+
+GitHub Pages is static hosting. The public pages and browser content reads work,
+but enquiries, private media redirects and administrator editing require a host
+with server support. Use Netlify or the Lovable-published version for those
+features; WhatsApp links and quotation exports remain available on the static
+copy.
+
+## Deploy to Netlify (full server-supported copy)
 
 The project is ready for Netlify — `netlify.toml` already sets the build.
 

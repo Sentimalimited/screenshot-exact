@@ -6,10 +6,47 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+const isGitHubPages = process.env["GITHUB_PAGES"] === "true";
+const [repositoryOwner = "", repositoryName = ""] = (process.env["GITHUB_REPOSITORY"] ?? "").split("/");
+const isUserSite = repositoryName.toLowerCase() === `${repositoryOwner}.github.io`.toLowerCase();
+const pagesBase = isGitHubPages && repositoryName && !isUserSite ? `/${repositoryName}/` : "/";
+const pagesOrigin = (process.env["VITE_SITE_URL"] ?? "").replace(/\/$/, "");
+const publicPages = [
+  "/",
+  "/about",
+  "/services",
+  "/portfolio",
+  "/pricing",
+  "/resources",
+  "/contact",
+  "/request-a-quote",
+  "/book-a-meeting",
+  "/privacy",
+];
+
 export default defineConfig({
+  vite: {
+    base: pagesBase,
+    define: { "import.meta.env.VITE_GITHUB_PAGES": JSON.stringify(isGitHubPages ? "true" : "false") },
+  },
+  // GitHub Pages serves files only. Other hosts retain the normal server build.
+  ...(isGitHubPages ? { nitro: { preset: "github-pages" } } : {}),
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
     server: { entry: "server" },
+    ...(isGitHubPages
+      ? {
+          router: { basepath: pagesBase === "/" ? "/" : pagesBase.slice(0, -1) },
+          pages: publicPages.map((path) => ({ path })),
+          prerender: {
+            enabled: true,
+            crawlLinks: true,
+            autoStaticPathsDiscovery: false,
+            failOnError: true,
+            filter: (page: { path: string }) => !/\/(auth|admin)(\/|$)/.test(page.path),
+          },
+          sitemap: { enabled: true, host: `${pagesOrigin}${pagesBase === "/" ? "" : pagesBase.slice(0, -1)}` },
+        }
+      : {}),
   },
 });

@@ -2,11 +2,14 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CtaBand } from "@/components/site/blocks";
 import { Ornament } from "@/components/site/ornament";
 import { getArticle } from "@/lib/content.functions";
+import { getBrowserArticle, isStaticPublicSite } from "@/lib/public-content-browser";
 import { seo } from "@/lib/site";
 
 export const Route = createFileRoute("/resources/$slug")({
   loader: async ({ params }) => {
-    const article = await getArticle({ data: { slug: params.slug } });
+    const article = isStaticPublicSite && typeof window !== "undefined"
+      ? await getBrowserArticle(params.slug)
+      : await getArticle({ data: { slug: params.slug } });
     if (!article) throw notFound();
     return article;
   },

@@ -10,7 +10,8 @@
 <!-- LOVABLE:END -->
 
 ## Project rules
-- Public content (settings, services, pricing, portfolio, testimonials, FAQs, articles) loads through one public server function (`getSiteContent`) cached under the `site-content` query; admin edits must invalidate that key.
+- Public content (settings, services, pricing, portfolio, testimonials, FAQs, articles) loads through one public server function (`getSiteContent`) cached under the `site-content` query, except the GitHub Pages static copy uses publishable browser reads because it has no server runtime; admin edits must invalidate that key.
+- GitHub Pages is a public static deployment only: `GITHUB_PAGES=true` enables prerendering and repository-base-path support, while enquiries, private media and admin writes still require Netlify or Lovable hosting.
 - Enquiries are written only by the `submitEnquiry` server function with the privileged client; visitors have no direct table access, so validation and spam checks stay server-side.
 - Admin-uploaded files live in the private `media` bucket under `site/` and are served via the `/media/*` redirect route, because public buckets are blocked for this workspace.
 - Admin access is a role in `user_roles`; the first account created becomes admin via a database trigger.
