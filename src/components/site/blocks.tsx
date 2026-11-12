@@ -10,10 +10,10 @@ import { BeadBand, GoldDust, KitengeBackdrop } from "./african";
 
 export function PageHeader({ eyebrow, title, intro }: { eyebrow: string; title: string; intro?: string }) {
   return (
-    <section data-spotlight className="section-ink relative overflow-hidden">
+    <section data-spotlight className="section-ink relative flex min-h-[clamp(22rem,55svh,36rem)] flex-col justify-center overflow-hidden">
       <KitengeBackdrop />
       <GoldDust />
-      <div className="mx-auto max-w-7xl px-5 pb-16 pt-16 md:px-8 md:pb-20 md:pt-24">
+      <div className="mx-auto w-full max-w-7xl px-5 pb-16 pt-16 md:px-8 md:pb-20 md:pt-24">
         <p className="eyebrow mb-4 animate-rise">{eyebrow}</p>
         <h1 className="max-w-4xl text-5xl text-ink-foreground animate-rise delay-1 md:text-7xl">{title}</h1>
         {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-muted animate-rise delay-2">{intro}</p>}

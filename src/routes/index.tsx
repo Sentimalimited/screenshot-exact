@@ -65,10 +65,10 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <section data-spotlight className="section-ink relative overflow-hidden">
+      <section data-spotlight className="section-ink relative flex min-h-[calc(100svh-4rem)] flex-col justify-center overflow-hidden">
         <KitengeBackdrop />
         <GoldDust />
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 md:px-8 lg:grid-cols-12 lg:py-24">
+        <div className="mx-auto grid w-full max-w-7xl flex-1 items-center gap-12 px-5 py-16 md:px-8 lg:grid-cols-12 lg:py-20">
           <div className="lg:col-span-6">
             <p className="eyebrow mb-5 animate-rise">Teacher-led school services · Western Kenya</p>
             <h1 className="text-5xl text-ink-foreground animate-rise delay-1 sm:text-6xl xl:text-7xl">
